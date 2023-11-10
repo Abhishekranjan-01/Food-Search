@@ -843,6 +843,16 @@ video {
   color: rgb(234 179 8 / var(--tw-text-opacity));
 }
 
+.text-red-900 {
+  --tw-text-opacity: 1;
+  color: rgb(127 29 29 / var(--tw-text-opacity));
+}
+
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -894,5 +904,15 @@ video {
   .md\:px-\[35\%\] {
     padding-left: 35%;
     padding-right: 35%;
+  }
+
+  .md\:px-\[25\%\] {
+    padding-left: 25%;
+    padding-right: 25%;
+  }
+
+  .md\:px-\[15\%\] {
+    padding-left: 15%;
+    padding-right: 15%;
   }
 }

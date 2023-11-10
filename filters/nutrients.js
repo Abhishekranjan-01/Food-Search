@@ -2,12 +2,12 @@ const nutrientsForm = document.getElementById('nutrients-form');
 const submitNutrientsForm = document.querySelector("[data-nutrients='submit']");
 
 const nutrientsCheckboxes = document.querySelectorAll('#nutrients-form [data-nutrients]');
+const nutrientsApiResultSection = document.getElementById('nutrients-api-result');
+
 let searchResultExistAlready = false;
 
-
+// Adding Options For 'Min' And 'Max' Value For Nutrients
 for(let i = 1 ; i < nutrientsCheckboxes.length; i++){
-   
-
     
 nutrientsCheckboxes[i].classList.add('relative');
 // console.log(nutrientsCheckboxes[i].getAttribute('data-nutrients'));
@@ -25,6 +25,7 @@ nutrientsCheckboxes[i].innerHTML+= `<div data-${nutrientsCheckboxes[i].getAttrib
     </div>`;
 
 
+    // On Clicking Label 'Min' and 'max' Option Get Visible
     nutrientsCheckboxes[i].childNodes[3].addEventListener("click",()=>{
         nutrientsCheckboxes[i].lastChild.classList.toggle('hidden');
 
@@ -32,18 +33,25 @@ nutrientsCheckboxes[i].innerHTML+= `<div data-${nutrientsCheckboxes[i].getAttrib
     });
 }
 
+// On Clicking Label 'Min' and 'max' Option Get Visible For Carbohydrates
 nutrientsCheckboxes[0].childNodes[3].addEventListener("click",()=>{
     nutrientsCheckboxes[0].childNodes[5].classList.toggle('hidden');
 
-    // console.log(nutrientsCheckboxes[0].childNodes[5]);
+    console.log(nutrientsCheckboxes[0].childNodes[5]);
 });
+
+
 
 const checkboxedNutrients = [];
 
 
+// Nutrients Form 
 nutrientsForm.addEventListener("submit",(e)=>{
     e.preventDefault();
 
+    // if(nutrientsApiResultSection.classList.contains('lds-dual-ring')){
+        nutrientsApiResultSection.classList.add('lds-dual-ring');
+    // }
     const ff = new FormData(nutrientsForm,submitNutrientsForm);
 
     const arrayOfAmounts = [];    
@@ -54,14 +62,14 @@ nutrientsForm.addEventListener("submit",(e)=>{
         [amount,count] = i;
 
         let nutrientName;
-        console.log("ot:\t\t",i);
+        // console.log("ot:\t\t",i);
         if(count == 'on' && count)
         {
 
             [nutrientName] = i;
             // console.log("i: \t\t",i);
             // console.log("am: ",amount,"count: ",count);
-                console.log((nutrientName[0].toLowerCase()+nutrientName.slice(1)));
+                // console.log((nutrientName[0].toLowerCase()+nutrientName.slice(1)));
 
 
             const minValue =document.querySelector(`[data-nutrients='${(nutrientName[0].toUpperCase()+nutrientName.slice(1))}'] [data-min-amount='min-amount']`);
@@ -179,6 +187,7 @@ nutrientsForm.addEventListener("submit",(e)=>{
                 alert("No Food Found With Selected Amount Of Nutrients");
             }else{
                 console.log(data[0]);
+                // Adding Search Result in HTML page
                 addNutrientsApiResult(data);
                 searchResultExistAlready = true;
             }
@@ -193,11 +202,13 @@ nutrientsForm.addEventListener("submit",(e)=>{
 });
 
 
+// Adding Search Result in HTML page
 function addNutrientsApiResult(data){
     const nutrientsResultSection = document.getElementById('nutrients-api-result');
     if(searchResultExistAlready){
         console.log("\nAlready Exist\n");
         nutrientsResultSection.innerHTML="";
+        nutrientsApiResultSection.classList.add('lds-dual-ring');
         
     console.log("\n\nDone Removing \n\n");
     }
@@ -218,7 +229,7 @@ function addNutrientsApiResult(data){
         
         for(let dataXX of dataXnutrients)
         {
-            console.log(dataXX);
+            // console.log(dataXX);
             if(dataXX[0] =='id' || dataXX[0] == 'title' || dataXX[0] == 'image' || dataXX[0] == 'imageType'){
                 //Do Nothing
                 continue;
@@ -226,7 +237,7 @@ function addNutrientsApiResult(data){
             else
             {
                 const nutriOneByOne = document.createElement("div");
-                nutriOneByOne.classList.add("flex","w-full","text-left","px-10","text-gray-200","justify-between","md:px-[35%]");
+                nutriOneByOne.classList.add("flex","w-full","text-left","px-10","text-gray-200","justify-between","md:px-[15%]");
                 
                    let checkboxedNutrientsExist = false;
                 // console.log(dataXX[0],"  :  ",checkboxedNutrients);
@@ -255,5 +266,6 @@ function addNutrientsApiResult(data){
             }
             // break;
         }
+        nutrientsApiResultSection.classList.remove('lds-dual-ring');
     }
 }
