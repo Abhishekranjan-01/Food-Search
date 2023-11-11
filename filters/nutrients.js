@@ -2,7 +2,7 @@ const nutrientsForm = document.getElementById('nutrients-form');
 const submitNutrientsForm = document.querySelector("[data-nutrients='submit']");
 
 const nutrientsCheckboxes = document.querySelectorAll('#nutrients-form [data-nutrients]');
-const nutrientsApiResultSection = document.getElementById('nutrients-api-result');
+
 
 let searchResultExistAlready = false;
 
@@ -12,7 +12,7 @@ for(let i = 1 ; i < nutrientsCheckboxes.length; i++){
 nutrientsCheckboxes[i].classList.add('relative');
 // console.log(nutrientsCheckboxes[i].getAttribute('data-nutrients'));
 
-nutrientsCheckboxes[i].innerHTML+= `<div data-${nutrientsCheckboxes[i].getAttribute('data-nutrients')}=${nutrientsCheckboxes[i].getAttribute('data-nutrients').toLowerCase()}-amount class="text-gray-900 bg-sky-400 absolute -top-8 flex flex-row gap-3 px-2 py-2 justify-center items-start hidden"
+nutrientsCheckboxes[i].innerHTML+= `<div data-${nutrientsCheckboxes[i].getAttribute('data-nutrients')}=${nutrientsCheckboxes[i].getAttribute('data-nutrients').toLowerCase()}-amount class="text-gray-900 bg-sky-400 absolute -top-8 flex flex-row gap-3 px-2 py-2 justify-center items-start hidden rounded-md"
     >
 
         <label for= min${nutrientsCheckboxes[i].getAttribute('data-nutrients')} class="text-xs font-semibold">Min</label>
@@ -50,6 +50,7 @@ nutrientsForm.addEventListener("submit",(e)=>{
     e.preventDefault();
 
     // if(nutrientsApiResultSection.classList.contains('lds-dual-ring')){
+        const nutrientsApiResultSection = document.getElementById('loading-spinner');
         nutrientsApiResultSection.classList.add('lds-dual-ring');
     // }
     const ff = new FormData(nutrientsForm,submitNutrientsForm);
@@ -195,10 +196,11 @@ nutrientsForm.addEventListener("submit",(e)=>{
         console.log("\n\nFetching In Progress\n\n\n");
     }).catch((error)=>
     {
-        alert("Please Check Your Network Connection : 157",error);
+        // alert("Something Went Wrong Chekc On LINE : 157",error);
         console.log("Please Check Your Network Connection : 157\n\n",error);
         console.log(error);
     })
+
 });
 
 
@@ -208,7 +210,7 @@ function addNutrientsApiResult(data){
     if(searchResultExistAlready){
         console.log("\nAlready Exist\n");
         nutrientsResultSection.innerHTML="";
-        nutrientsApiResultSection.classList.add('lds-dual-ring');
+
         
     console.log("\n\nDone Removing \n\n");
     }
@@ -219,7 +221,7 @@ function addNutrientsApiResult(data){
     {
         
         nutrientsResultSection.innerHTML+=`<div class="flex justify-center">
-            <img class="rounded-lg mt-4" src=${dataX['image']} alt="Image Not Available">
+            <img class="rounded-lg mt-4 " src=${dataX['image']} alt="Image Not Available">
         </div>
 
         <div>
@@ -237,7 +239,7 @@ function addNutrientsApiResult(data){
             else
             {
                 const nutriOneByOne = document.createElement("div");
-                nutriOneByOne.classList.add("flex","w-full","text-left","px-10","text-gray-200","justify-between","md:px-[15%]");
+                nutriOneByOne.classList.add("flex","w-full","text-left","px-10","text-gray-200","justify-between","md:px-[35%]");
                 
                    let checkboxedNutrientsExist = false;
                 // console.log(dataXX[0],"  :  ",checkboxedNutrients);
@@ -266,6 +268,13 @@ function addNutrientsApiResult(data){
             }
             // break;
         }
-        nutrientsApiResultSection.classList.remove('lds-dual-ring');
+
     }
+    const nutrientsApiResultSection2 = document.getElementById('loading-spinner');
+    // const nutrientsApiResultSection2 = document.querySelector('[data-loading-spinner]');
+    console.log("\n\nRR: ",nutrientsApiResultSection2);
+    nutrientsApiResultSection2.classList.remove('lds-dual-ring');
+    // nutrientsApiResultSection2.removeAttribute('class');
+    console.log("\n\nRR: ",nutrientsApiResultSection2);
+    // nutrientsApiResultSection.classList.toggle('hidden');
 }
